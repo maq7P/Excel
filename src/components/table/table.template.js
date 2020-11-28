@@ -5,17 +5,24 @@ const CODE = {
         return this.Z - this.A + 1
     }
 }
-const colContent = (content) => (
-    `<div class="column">${content}</div>`
+const colContent = (content, i) => (
+    `<div class="column" data-resizable="${i}"">
+        ${content}
+        <div class="column-resize"  data-resize="col"></div>
+    </div>`
 )
 
-const cellContent = () => (
-    `<div class="cell" contenteditable></div>`
+const cellContent = (_, i) => (
+    `<div contenteditable class="cell" data-cell="${i}"></div>`
 )
 
 const rowContent = (index, content) => (
-    `<div class="row">
-        <div class="row-info">${index}</div>
+    `<div class="row" data-resizable>
+        <div class="row-info">
+            ${index ? 
+                `${index} <div class="row-resize" data-resize="row"></div>` : 
+                ''}
+        </div>
         <div class="row-data">${content}</div>
     </div>`
 )
@@ -41,7 +48,7 @@ function fillRows(count = 15) {
         if (i) {
             rows += rowContent(i, createCells(CODE.colsCount))
         } else {
-            rows += rowContent('', createCols(CODE.colsCount, CODE.A))
+            rows += rowContent(null, createCols(CODE.colsCount, CODE.A))
         }
     }
     return rows

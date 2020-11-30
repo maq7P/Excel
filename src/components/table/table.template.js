@@ -1,8 +1,12 @@
-const CODE = {
+import {Table} from "@/components/table/Table";
+export const CODE = {
     A: 'A'.charCodeAt(),
     Z: 'Z'.charCodeAt(),
     get colsCount() {
         return this.Z - this.A + 1
+    },
+    get rowsCount() {
+        return Table.COUNT_ROWS
     }
 }
 const colContent = (content, i) => (
@@ -12,8 +16,14 @@ const colContent = (content, i) => (
     </div>`
 )
 
-const cellContent = (_, i) => (
-    `<div contenteditable class="cell" data-cell="${i}"></div>`
+const cellContent = (row, col) => (
+    `<div 
+        contenteditable 
+        class="cell" 
+        data-cell="${col}" 
+        data-id="${row}:${col}"
+        data-type="cell"
+    ></div>`
 )
 
 const rowContent = (index, content) => (
@@ -27,7 +37,7 @@ const rowContent = (index, content) => (
     </div>`
 )
 
-function createCols(colsCount, start) {
+function createCols(colsCount, start, row) {
     return new Array(colsCount)
         .fill('')
         .map((_, index) => String.fromCharCode(index + start))
@@ -35,20 +45,20 @@ function createCols(colsCount, start) {
         .join('')
 }
 
-function createCells(colsCount) {
+function createCells(colsCount, start, row) {
     return new Array(colsCount)
-        .fill('')
+        .fill(row)
         .map(cellContent)
         .join('')
 }
 
 function fillRows(count = 15) {
     let rows = ''
-    for (let i = 0; i <= count; i++) {
-        if (i) {
-            rows += rowContent(i, createCells(CODE.colsCount))
+    for (let row = 0; row <= count; row++) {
+        if (row) {
+            rows += rowContent(row, createCells(CODE.colsCount, null, row-1))
         } else {
-            rows += rowContent(null, createCols(CODE.colsCount, CODE.A))
+            rows += rowContent(null, createCols(CODE.colsCount, CODE.A, row))
         }
     }
     return rows

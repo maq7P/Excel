@@ -4,8 +4,11 @@ class DOM {
             document.querySelector(selector) :
             selector
     }
+    find(selectors) {
+        return $(this.native_elem.querySelector(selectors))
+    }
     findAll(selectors) {
-        return this.native_elem.querySelectorAll(selectors)
+        return $(this.native_elem.querySelectorAll(selectors))
     }
     create(tagName, classes = '') {
         this.native_elem = document.createElement('div')
@@ -20,6 +23,16 @@ class DOM {
             return this
         }
         return this.native_elem.innerHTML
+    }
+    text(text) {
+        if (typeof text === 'string') {
+            this.native_elem.textContent = text
+            return this
+        }
+        if (this.native_elem.tagName === 'INPUT') {
+            return this.native_elem.value.trim()
+        }
+        return this.native_elem.textContent.trim()
     }
     clear() {
         this.html('')
@@ -50,8 +63,22 @@ class DOM {
     getData(name) {
         return this.native_elem.dataset[name]
     }
+    id(parse) {
+        if (parse) {
+            return {
+                row: +this.id().split(':')[0],
+                col: +this.id().split(':')[1]
+            }
+        }
+        return this.getData('id')
+    }
+    focus() {
+        this.native_elem.focus()
+        return this
+    }
 
     css(styles = {}) {
+       /*Можно так*/
        //  for (const style in styles) {
        //      if (Object.prototype.hasOwnProperty.call(styles, style)) {
        //          this.native_elem.style[style] = styles[style]
@@ -61,6 +88,17 @@ class DOM {
             this.native_elem.style[style] = styles[style]
         })
         return this
+    }
+    addClass(className) {
+        this.native_elem.classList.add(className)
+        return this
+    }
+    removeClass(className) {
+        this.native_elem.classList.remove(className)
+        return this
+    }
+    isClass(className) {
+        return this.native_elem.classList.contains(className)
     }
 }
 export const $ = (selector = null) => {

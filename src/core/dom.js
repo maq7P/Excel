@@ -8,7 +8,7 @@ class DOM {
         return $(this.native_elem.querySelector(selectors))
     }
     findAll(selectors) {
-        return $(this.native_elem.querySelectorAll(selectors))
+        return this.native_elem.querySelectorAll(selectors)
     }
     create(tagName, classes = '') {
         this.native_elem = document.createElement('div')

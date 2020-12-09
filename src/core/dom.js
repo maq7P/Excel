@@ -4,6 +4,7 @@ class DOM {
             document.querySelector(selector) :
             selector
     }
+
     find(selectors) {
         return $(this.native_elem.querySelector(selectors))
     }
@@ -25,7 +26,7 @@ class DOM {
         return this.native_elem.innerHTML
     }
     text(text) {
-        if (typeof text === 'string') {
+        if (typeof text !== 'undefined') {
             this.native_elem.textContent = text
             return this
         }
@@ -57,11 +58,17 @@ class DOM {
     closest(attribute) {
         return $(this.native_elem.closest(attribute))
     }
+    isClosest(attribute) {
+        return !!this.native_elem.closest(attribute)
+    }
     getCoordinates() {
         return this.native_elem.getBoundingClientRect()
     }
     getData(name) {
-        return this.native_elem.dataset[name]
+        if (name) {
+            return this.native_elem.dataset[name]
+        }
+        return this.native_elem.dataset
     }
     id(parse) {
         if (parse) {
@@ -89,6 +96,12 @@ class DOM {
         })
         return this
     }
+    getStyle(styles) {
+        return styles.reduce((result, style) => {
+            result[style] = this.native_elem.style[style]
+            return result
+        }, {})
+    }
     addClass(className) {
         this.native_elem.classList.add(className)
         return this
@@ -99,6 +112,13 @@ class DOM {
     }
     isClass(className) {
         return this.native_elem.classList.contains(className)
+    }
+    attr(name, value) {
+        if (value !== 'undefined') {
+            this.native_elem.setAttribute(name, value)
+            return this
+        }
+        return this.native_elem.getAttribute(name)
     }
 }
 export const $ = (selector = null) => {

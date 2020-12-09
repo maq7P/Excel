@@ -1,37 +1,42 @@
-import {ExcelComponent} from "@core/ExcelComponent";
+import {createToolbar} from "@/components/toolbar/toolbar.temlete";
+import {$} from "@core/dom";
+import {ExcelStateComponent} from "@core/ExcelStateComponent";
+import {defaultStyles} from "@/constants";
 
-export class Toolbar extends ExcelComponent {
+export class Toolbar extends ExcelStateComponent {
     constructor($root, settings) {
         super($root, {
             name: 'Toolbar',
             listeners: ['click'],
+            subscribe: ['currentStyles'],
             ...settings
         });
     }
     static className = 'excel__toolbar'
-    toHTML() {
-        return `
-            <div class="button">
-                <i class="material-icons">format_align_left</i>
-            </div>
-            <div class="button">
-                <i class="material-icons">format_align_center</i>
-            </div>
-            <div class="button">
-                <i class="material-icons">format_align_right</i>
-            </div>
-            <div class="button">
-                <i class="material-icons">format_bold</i>
-            </div>
-            <div class="button">
-                <i class="material-icons">format_italic</i>
-            </div>
-            <div class="button">
-                <i class="material-icons">format_underline</i>
-            </div>
-        `
+
+    prepare() {
+        this.initialState(defaultStyles)
     }
+
+    get template() {
+        return createToolbar(this.state)
+    }
+
+    toHTML() {
+        return this.template
+    }
+    storeChanged(changes) {
+        this.setState(changes.currentStyles)
+    }
+
     onClick(e) {
-        console.log(e.target)
+        const $target = $(e.target)
+
+        if ($target.isClosest('[data-value]')) {
+            const $btn = $target.closest('[data-value]')
+            const value = JSON.parse($btn.getData().value)
+            this.$emitter('toolbar:applyStyle', value)
+            // this.setState(value)
+        }
     }
 }

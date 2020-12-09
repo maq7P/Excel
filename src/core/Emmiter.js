@@ -32,9 +32,6 @@ export class Emitter {
 }
 /* EXAMPLE*/
 // const emitter = new Emitter()
-// const unsub = emitter.subscribe({
-//     type: 'Max',
-//     handler: data => console.log('Sub', data)
-// })
+// const unsub = emitter.subscribe('Max', data => console.log('Sub', data))
 // emitter.dispatch('Max', 23)
 // emitter.dispatch('Max', 24)

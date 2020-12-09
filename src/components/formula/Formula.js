@@ -1,11 +1,13 @@
 import {ExcelComponent} from "@core/ExcelComponent";
 import {$} from "@core/dom";
+import {parse} from "@core/parse";
 
 export class Formula extends ExcelComponent {
     constructor($root, settings) {
         super($root, {
             name: 'Formula',
             listeners: ['input', 'keydown'],
+            subscribe: ['currentText'],
             ...settings
         });
     }
@@ -19,21 +21,22 @@ export class Formula extends ExcelComponent {
     init() {
         super.init()
         this.$formula = this.$root.find('#formula')
-        this.$on('CELL_SWITCH', (text) => {
-            this.$formula.text(text)
-        })
-        this.$on('CELL_INPUT', (text) => {
-            this.$formula.text(text)
+        this.$on('cell:switch', $cell => {
+            this.$formula.text($cell.getData('value'))
         })
     }
+    storeChanged({currentText}) {
+        this.$formula.text(currentText)
+    }
+
     onInput(event) {
-        this.$dispatch('FORMULA_INPUT', $(event.target).text())
+        this.$emitter('formula:input', $(event.target).text())
     }
     onKeydown(e) {
         const keys = ['Enter', 'Tab']
         if (keys.includes(e.code)) {
             e.preventDefault()
-            this.$dispatch('FOCUS_CELL')
+            this.$emitter('cell:focus')
         }
     }
 }

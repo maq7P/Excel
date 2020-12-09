@@ -1,26 +1,36 @@
-import {ExcelComponent} from "@core/ExcelComponent";
+import {createHeader} from "@/components/header/header.template";
+import {ExcelStateComponent} from "@core/ExcelStateComponent";
+import {changeHeaderAC} from "@core/redux/actionCreators";
+import {$} from "@core/dom";
+import {debounce} from "@core/utilites";
 
-export class Header extends ExcelComponent {
+export class Header extends ExcelStateComponent {
     constructor($root, settings) {
         super($root, {
             name: 'Header',
-            ...settings
+            ...settings,
+            listeners: ['input'],
         });
     }
     static className = 'excel__header'
 
-    toHTML() {
-        return `
-            <input type="text" class="input" value="Новая таблицa">
-            <div>
-                <div class="button">
-                    <i class="material-icons">exit_to_app</i>
-                </div>
+    prepare() {
+        this.onInput = debounce(this.onInput, 300, this)
 
-                <div class="button">
-                    <i class="material-icons">delete</i>
-                </div>
-            </div>
-        `
+        const initState = {value: this.store.getState.header} ||
+                          {value: 'Новая таблица'}
+        this.initialState(initState)
+    }
+
+    get template() {
+        return createHeader(this.state)
+    }
+
+    toHTML() {
+        return this.template
+    }
+
+    onInput(e) {
+        this.$dispatch(changeHeaderAC($(e.target).text()))
     }
 }

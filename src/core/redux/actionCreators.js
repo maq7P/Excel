@@ -2,7 +2,7 @@ import {
     TABLE_RESIZE,
     CHANGE_TEXT,
     CHANGE_STYLES,
-    APPLY_STYLE, CHANGE_HEADER
+    APPLY_STYLE, CHANGE_HEADER, UPDATE_DATE
 } from "@core/redux/types";
 
 export const tableResizeAC = (data) => {
@@ -33,5 +33,10 @@ export const changeHeaderAC = (data) => {
     return {
         type: CHANGE_HEADER,
         data
+    }
+}
+export const updateDateAC = () => {
+    return {
+        type: UPDATE_DATE
     }
 }

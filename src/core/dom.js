@@ -110,6 +110,9 @@ class DOM {
         this.native_elem.classList.remove(className)
         return this
     }
+    getClass() {
+        return this.native_elem.className
+    }
     isClass(className) {
         return this.native_elem.classList.contains(className)
     }

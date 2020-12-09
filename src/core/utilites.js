@@ -46,3 +46,11 @@ export function debounce(callback, wait, context) {
         }, wait)
     }
 }
+export const zero = (str) => {
+    return +str < 10 ? `0${str}` : str
+}
+export const isDevelopment = () => {
+    if (process.env.NODE_ENV === 'development') {
+        return true
+    } else return false
+}

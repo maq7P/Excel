@@ -1,5 +1,5 @@
 import {$} from "@core/dom";
-import {Emitter} from "@core/Emmiter";
+import {Emitter} from "@core/emmiter/Emmiter";
 import {StoreSubscribe} from "@core/StoreSubscribe";
 import {updateDateAC} from "@core/redux/actionCreators";
 
@@ -8,7 +8,7 @@ export class Excel {
         this.components = options.components || []
         this.emitter = new Emitter()
         this.store = options.store
-        this.sunscriber = new StoreSubscribe(this.store)
+        this.subscriber = new StoreSubscribe(this.store)
     }
     getRoot() {
         const $root = $().create('div', 'excel')
@@ -27,11 +27,11 @@ export class Excel {
     }
     init() {
         this.store.dispatch(updateDateAC())
-        this.sunscriber.subscribeComponents(this.components)
+        this.subscriber.subscribeComponents(this.components)
         this.components.forEach(component => component.init())
     }
     destroy() {
-        this.sunscriber.unsubscribeFromStore()
+        this.subscriber.unsubscribeFromStore()
         this.components.forEach(component => component.destroy())
     }
 }

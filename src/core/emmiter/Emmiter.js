@@ -2,9 +2,6 @@ export class Emitter {
     constructor() {
         this.listeners = {}
     }
-    test() {
-        console.log('excited')
-    }
     //Уведомляем слушателей, если они есть
     dispatch(type, ...args) {
         if (!Array.isArray(this.listeners[type])) {

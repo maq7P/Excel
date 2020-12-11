@@ -1,4 +1,3 @@
-import {storage} from "@core/utilites";
 
 export class ActiveRoute {
     static get path() {

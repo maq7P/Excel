@@ -8,20 +8,20 @@ import {Header} from "@/components/header/Header";
 import {Toolbar} from "@/components/toolbar/Toolbar";
 import {Formula} from "@/components/formula/Formula";
 import {Table} from "@/components/table/Table";
+import {LocalStorageClient} from "@/data/LocalStorageClient";
+import {StateProcessor} from "@/data/StateProcessorDIP";
 
 export class ExcelPage extends Page {
-    getRoot() {
-        const storageName = this.params?
-            `excel:${this.params}` :
-            `excel:${Date.now().toString()}`
-        const store = new CreateStore(rootReducer, initialState(storageName))
-        const stateListener = debounce(state => {
-            if (isDevelopment()) {
-                console.log('save state in storage', state)
-            }
-            storage(storageName, state)
-        }, 300)
-        this.storeUnSub = store.subscribe(stateListener)
+    constructor(param) {
+        super(param);
+        this.processor = new StateProcessor(
+            new LocalStorageClient(this.params)
+        )
+    }
+    async getRoot() {
+        const state = await this.processor.get()
+        const store = new CreateStore(rootReducer, initialState(state))
+        this.storeUnSub = store.subscribe(this.processor.listen)
 
         this.excel = new Excel({
             components: [Header, Toolbar, Formula, Table],

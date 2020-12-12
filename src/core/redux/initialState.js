@@ -20,6 +20,6 @@ const normalize = state => {
         }
     } else return null
 }
-export const initialState = (storageName= '') => {
-    return normalize(storage(storageName)) || clone(defaultState)
+export const initialState = (state) => {
+    return normalize(state) || clone(defaultState)
 }

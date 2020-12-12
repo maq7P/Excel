@@ -21,7 +21,7 @@ export class ExcelPage extends Page {
             }
             storage(storageName, state)
         }, 300)
-        store.subscribe(stateListener)
+        this.storeUnSub = store.subscribe(stateListener)
 
         this.excel = new Excel({
             components: [Header, Toolbar, Formula, Table],
@@ -31,5 +31,9 @@ export class ExcelPage extends Page {
     }
     afterRender() {
         this.excel.init()
+    }
+    destroy() {
+        this.excel.destroy()
+        this.storeUnSub()
     }
 }

@@ -54,3 +54,9 @@ export const isDevelopment = () => {
         return true
     } else return false
 }
+export const preventDefault = (e) => {
+    e.preventDefault()
+}
+export const clone = (obj) => {
+    return JSON.parse(JSON.stringify(obj))
+}

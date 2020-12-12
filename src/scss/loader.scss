@@ -1,0 +1,47 @@
+@keyframes ldio-exug08z8mcd {
+  0% { transform: rotate(0deg) }
+  100% { transform: rotate(360deg) }
+}
+.loader{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ldio-exug08z8mcd > div > div {
+  position: absolute;
+  border-radius: 50%;
+}
+.ldio-exug08z8mcd > div > div:nth-child(1) {
+  top: 30px;
+  left: 30px;
+  width: 140px;
+  height: 140px;
+  background: #174c29;
+}
+.ldio-exug08z8mcd > div > div:nth-child(2) {
+  top: 39.800000000000004px;
+  left: 79px;
+  width: 42px;
+  height: 42px;
+  background: #fefefe;
+  animation: ldio-exug08z8mcd 1s linear infinite;
+  transform-origin: 21px 60.199999999999996px;
+}
+.loadingio-spinner-disk-6b7btax7zq6 {
+  width: 200px;
+  height: 200px;
+  display: inline-block;
+  overflow: hidden;
+  background: #ffffff;
+}
+.ldio-exug08z8mcd {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform: translateZ(0) scale(1);
+  backface-visibility: hidden;
+  transform-origin: 0 0; /* see note above */
+}
+.ldio-exug08z8mcd div { box-sizing: content-box;}

@@ -7,13 +7,10 @@ export default class CreateStore {
     get getState() {
         return this._state
     }
-    subscribe(callback) {
-        this._listeners.push(callback)
-        return {
-            unsubscribe: () => {
-                this._listeners.filter(listener => listener !== callback)
-            }
-        }
+    subscribe(cb) {
+        this._listeners.push(cb)
+        return () =>
+            this._listeners = this._listeners.filter(l => l !== cb)
     }
     dispatch(action) {
         this._state = this.rootReducer(this._state, action)

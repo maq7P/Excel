@@ -43,13 +43,11 @@ describe('CreateStore:', () => {
         expect(handler).toBeCalled()
         expect(handler).toHaveBeenCalledWith(store.getState)
     })
-    //Something mistake with createStore or test!!!!
     test('should NOT call subscriber function', () => {
         const unsub = store.subscribe(handler)
-        unsub.unsubscribe()
+        unsub()
         store.dispatch({type: 'ADD'})
-        //have to be  expect(handler).not.toHaveBeenCalled()
-        expect(handler).toHaveBeenCalled()
+        expect(handler).not.toHaveBeenCalled()
     })
     test('should dispatch in async way', () => {
         return new Promise((resolve) => {

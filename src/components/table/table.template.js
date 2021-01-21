@@ -12,8 +12,8 @@ export const CODE = {
         return Table.COUNT_ROWS
     }
 }
-const DEFAULT_WIDTH = 'width: 120px;'
-const DEFAULT_HEIGHT = 'height: 24px;'
+const DEFAULT_WIDTH = 'width: 120px;user-select: none;'
+const DEFAULT_HEIGHT = 'height: 24px;user-select: none;'
 
 const defineWidth = (state, col) => (
    state[col] ? `width: ${state[col]}px;` : DEFAULT_WIDTH
@@ -46,7 +46,7 @@ const cellContent = (row, col, width = DEFAULT_WIDTH, state) => {
             data-id="${id}"
             data-type="cell"
             data-value="${data || ''}"
-            style="${width}${styles}"
+            style="${width}${styles};"
         >${data ? parse(data) : ''}</div>
     `
 }
